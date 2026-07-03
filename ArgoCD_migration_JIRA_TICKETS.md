@@ -3,19 +3,7 @@
 ## TICKET 1: Ops Infra Setup for ArgoCD Migration
 
 ### Title
-[CP-PANES-000] Ops Infra Setup for ArgoCD Migration
-
-### Type
-Task / Story
-
-### Epic Link
-ArgoCD Migration Epic
-
-### Priority
-High
-
-### Sprint
-Sprint N (Current/Next)
+Ops Infra Setup for ArgoCD Migration
 
 ### Description
 Create or update all required ops-side resources for the application migration: AppSets in the eks repo, AppProject access and permissions, ExternalSecrets IAM role and SecretStore configuration, and verification that the GitOps and ArgoCD GitHub Apps are installed.
@@ -45,30 +33,8 @@ Provides the infrastructure and access prerequisites needed for ArgoCD to discov
   - [ ] AppProject present and policy rules effective
   - [ ] ExternalSecret test sync succeeds for at least one secret path
 
-### Technical Notes
-- Work is primarily in the ops/eks repositories and org-level access controls
-- Coordinate with DevOps/SRE for cluster and IAM changes
-- Coordinate with INFSYS for AD/OneLogin access when required
-- This ticket is a prerequisite for app-repo GitOps rollout
-
 ### Dependency
 Mostly external delay from DevOps/SRE, INFSYS, or GitHub org administration
-
-### Definition of Done
-- [ ] Ops resources merged and applied in target clusters
-- [ ] Team has ArgoCD access and can view/sync apps for project scope
-- [ ] ExternalSecrets path access validated
-- [ ] GitHub Apps availability confirmed
-- [ ] Evidence captured in ticket (links/screenshots/command output)
-
-### Subtasks
-1. AppSet creation/update in eks repo
-2. AppProject creation/update and RBAC mapping
-3. OneLogin/AD group verification
-4. ExternalSecrets IAM role configuration
-5. SecretStore configuration and validation
-6. GitHub Apps verification
-7. Ops-level validation and handoff to app team
 
 ### Blockers / Dependencies
 - DevOps/SRE implementation and review timelines
@@ -80,19 +46,7 @@ Mostly external delay from DevOps/SRE, INFSYS, or GitHub org administration
 ## TICKET 2: Set up Helm Charts and Verify Chart Compatibility
 
 ### Title
-[CP-PANES-001] Set up Helm Charts and Verify Chart Compatibility
-
-### Type
-Task / Story
-
-### Epic Link
-ArgoCD Migration Epic
-
-### Priority
-High
-
-### Sprint
-Sprint N (Current/Next)
+Set up Helm Charts and Verify Chart Compatibility
 
 ### Description
 As a developer, I need to set up the Helm chart structure for cp-panes deployment to prepare for ArgoCD deployment.
@@ -119,39 +73,13 @@ As a developer, I need to set up the Helm chart structure for cp-panes deploymen
 - Each values file must include database URLs, secrets references, and environment-specific configurations
 - Use AWS Secrets Manager references via ExternalSecrets pattern where applicable
 
-### Definition of Done
-- [ ] Helm chart lints without errors
-- [ ] All values files are validated
-- [ ] Code review approved
-- [ ] Changes merged to main branch
-
-### Subtasks
-1. Create helm directory structure
-2. Define Chart.yaml with dependencies
-3. Create shared-values.yaml
-4. Create dev-values.yaml
-5. Create stg-values.yaml
-6. Create prod-values.yaml
-7. Validate chart compatibility
 
 ---
 
 ## TICKET 3: Configure Release Please and Conventional Commits
 
 ### Title
-[CP-PANES-002] Configure Release Please and Conventional Commits
-
-### Type
-Task / Story
-
-### Epic Link
-ArgoCD Migration Epic
-
-### Priority
-High
-
-### Sprint
-Sprint N (Current/Next)
+Configure Release Please and Conventional Commits
 
 ### Description
 As a developer, I need to configure Release Please for automated versioning and changelog generation based on conventional commits. This enables automated release management in the GitOps workflow.
@@ -183,47 +111,12 @@ As a developer, I need to configure Release Please for automated versioning and 
 - The configuration uses jsonpath to update ECR image tags in Helm values files
 - Release Please integrates with GitHub to create releases and update tags
 
-### Example Conventional Commits
-```
-feat: add new authentication endpoint  # minor bump
-fix: correct database connection timeout  # patch bump
-feat!: change API response format  # major bump
-docs: update README  # no version bump
-```
-
-### Definition of Done
-- [ ] release-please-config.json is valid JSON
-- [ ] .release-please-manifest.json is valid JSON
-- [ ] Extra files configuration correctly points to Helm values
-- [ ] Code review approved
-- [ ] Changes merged to main branch
-
-### Subtasks
-1. Create release-please-config.json
-2. Create .release-please-manifest.json
-3. Configure extra-files for Helm values updates
-4. Verify package.json configuration
-5. Document conventional commit format
-6. Create/update CHANGELOG.md
-
 ---
 
 ## TICKET 4: Create GitOps Configuration and GitHub Workflows
 
 ### Title
-[CP-PANES-003] Create GitOps Configuration and GitHub Workflows
-
-### Type
-Task / Story
-
-### Epic Link
-ArgoCD Migration Epic
-
-### Priority
-High
-
-### Sprint
-Sprint N (Sprint after Ticket 1 & 2)
+Create GitOps Configuration and GitHub Workflows
 
 ### Description
 As a developer, I need to create the GitOps configuration file and GitHub Actions workflows to enable ArgoCD deployment and automated CI/CD for the cp-panes application.
@@ -291,42 +184,12 @@ apps:
   # Similar configs for stg and prod...
 ```
 
-### Definition of Done
-- [ ] gitops.yaml is valid YAML and contains all three environment configs
-- [ ] GitHub workflows are valid YAML
-- [ ] All path filters in pull-request workflow are correct
-- [ ] GitHub Apps are verified as installed
-- [ ] Required secrets are configured
-- [ ] Code review approved
-- [ ] Changes merged to main branch
-
-### Subtasks
-1. Create gitops.yaml with all environment configurations
-2. Create pull-request-single-app.yml workflow
-3. Create release.yml workflow
-4. Create promote-release.yml workflow
-5. Verify GitHub Apps installation
-6. Configure GitHub Actions secrets
-7. Validate all YAML files
-
 ---
 
 ## TICKET 5: Testing, Validation, and Go-Live Preparation
 
 ### Title
-[CP-PANES-004] Testing, Validation, and Go-Live Preparation for ArgoCD
-
-### Type
-Task / Story
-
-### Epic Link
-ArgoCD Migration Epic
-
-### Priority
-High
-
-### Sprint
-Sprint N (Sprint after Ticket 3)
+Testing, Validation, and Go-Live Preparation for ArgoCD
 
 ### Description
 As a developer, I need to thoroughly test and validate the ArgoCD migration setup before enabling production deployments. This includes testing all workflows, verifying deployments, and documenting the new workflow.
@@ -381,67 +244,9 @@ As a developer, I need to thoroughly test and validate the ArgoCD migration setu
 - Ensure database migrations (if any) are handled correctly
 - Check monitoring alerts are triggered appropriately
 
-### Deployment Testing Checklist
-- [ ] Dev environment deploys from ArgoCD
-- [ ] Staging environment accessible and working
-- [ ] Production environment stable and serving traffic
-- [ ] Previous release can be rolled back if needed
-- [ ] Health checks passing in all environments
-- [ ] Logs aggregating correctly to Datadog
-
-### Definition of Done
-- [ ] All testing steps completed and passed
-- [ ] Documentation updated and reviewed
-- [ ] Team trained and comfortable with new workflow
-- [ ] No blocking issues or concerns
-- [ ] Code review approved
-- [ ] Migration officially complete
-
-### Subtasks
-1. Execute end-to-end workflow test (PR → Release → Deploy)
-2. Test preview environment deployment and functionality
-3. Test promotion workflow between all environments
-4. Verify ArgoCD dashboard reflects deployments correctly
-5. Test rollback procedure
-6. Update documentation
-7. Conduct team training session
-8. Get stakeholder sign-off
-
 ### Blockers / Dependencies
 - Tickets 1, 2, and 3 must be completed first
 - SRE team confirmation that ArgoCD infrastructure is ready
 - DevOps team must have configured all required AWS resources
 
 ---
-
-## Migration Workflow Summary
-
-### Before Go-Live
-1. ✅ Complete Ticket 1: Ops Infra Setup
-2. ✅ Complete Ticket 2: Helm Charts Setup
-3. ✅ Complete Ticket 3: Release Please Configuration
-4. ✅ Complete Ticket 4: GitOps & GitHub Workflows
-5. ✅ Complete Ticket 5: Testing & Validation
-
-### Go-Live Readiness Checklist
-- [ ] All five tickets completed
-- [ ] Buildkite pipelines marked as deprecated but still active
-- [ ] Team trained and comfortable with new workflow
-- [ ] 24/7 support ready for issues
-- [ ] Rollback plan documented
-- [ ] All systems monitored for stability
-
-### Post-Migration
-- Decommission Buildkite pipelines after 1-2 weeks of stable operation
-- Consolidate documentation
-- Capture lessons learned
-- Conduct post-mortem if any issues occurred
-
----
-
-## Related Documentation
-- See `argocd_migration.md` for detailed migration guide
-- Refer to `On-Boarding+_+Migrating+from+Buildkite.doc` for comprehensive GitOps workflow details
-- ArgoCD Documentation: https://argoproj.io/
-- Release Please Documentation: https://github.com/googleapis/release-please
-- Conventional Commits: https://www.conventionalcommits.org/
